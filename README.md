@@ -1,6 +1,8 @@
 # Pocket calculator
 Simpe web calculator with option to registered users save/load logs of calculations.
 
+Need PHP 7+ for this application.
+
 # Installation
 
 1. Clone repository

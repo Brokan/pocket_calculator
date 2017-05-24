@@ -63,8 +63,9 @@ require('./bootstrap');
          */
         buttonActions : function() {
             var self = this;
-            this.container.find('button').click(function(){
+            this.container.find('.calculator button').click(function(){
                 var value = $(this).val();
+                console.log(value);
                 //Check action buttons
                 switch (value) {
                     case "clear":

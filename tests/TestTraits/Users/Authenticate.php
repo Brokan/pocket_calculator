@@ -2,7 +2,7 @@
 
 namespace Tests\TestTraits\Users;
 
-use App\User;
+use Tests\TestTraits\Users\User;
 
 /**
  * To Authenticate user.

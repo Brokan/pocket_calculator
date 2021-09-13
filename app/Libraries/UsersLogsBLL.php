@@ -55,6 +55,9 @@ class UsersLogsBLL {
     public static function getByName(int $userId, string $name): UsersLogs {
         $nameSearch = SimpleFunctions::createSearchWord($name);
         $item = UsersLogs::where('user_id', $userId)->where('name_search', $nameSearch)->first();
+        if(empty($item->id)){
+            return new UsersLogs();
+        }
         return $item;
     }
 
@@ -74,12 +77,12 @@ class UsersLogsBLL {
 
     /**
      * Get list of user save logs.
-     * @return array of UsersLogs
+     * @return \Illuminate\Database\Eloquent\Collection of UsersLogs
      */
-    public static function getUserLogs(): array {
+    public static function getUserLogs(): \Illuminate\Database\Eloquent\Collection {
         $userId = self::getUserId();
         if (empty($userId)) {
-            return [];
+            return new \stdClass();
         }
         return UsersLogs::where('user_id', $userId)->get();
     }

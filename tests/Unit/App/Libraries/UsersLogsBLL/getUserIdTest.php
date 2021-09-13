@@ -27,4 +27,12 @@ class getUserIdTest extends \Tests\TestCase {
         $this->authenticate();
         $this->assertEquals($this->testUser->id, UsersLogsBLL::getUserId());
     }
+    
+    /**
+     * After tests delete test user.
+     * @return void
+     */
+    protected function tearDown(): void {
+        $this->deleteUserTest();
+    }
 }

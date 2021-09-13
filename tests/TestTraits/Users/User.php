@@ -41,7 +41,6 @@ trait User {
         //Delete previously create test user;
         $this->deleteUserTest();
         //Create new test user.
-        ModelUser::factory()->create();
         $this->testUser = ModelUser::create([
                     'name' => $this->testUserName,
                     'email' => $this->testUserEmail,

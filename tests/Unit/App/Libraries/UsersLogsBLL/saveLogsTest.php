@@ -24,10 +24,38 @@ class saveLogsTest extends \Tests\TestCase {
      * Test when success.
      * @return void
      */
-    public function testSuccessAuthorised(): void {
+    public function testSuccessCreateAuthorised(): void {
         $this->authenticate();
         $log = UsersLogsBLL::saveLogs('test', 'logs_string');
         $this->assertEquals('test', $log->name);
         $this->assertEquals('logs_string', $log->logs);
+        
+        $log->delete();
+    }
+    
+    /**
+     * Test when success.
+     * @return void
+     */
+    public function testSuccessUpdateAuthorised(): void {
+        $this->authenticate();
+        $log = UsersLogsBLL::saveLogs('test', 'logs_string');
+        $this->assertEquals('test', $log->name);
+        $this->assertEquals('logs_string', $log->logs);
+        
+        $logUpdated = UsersLogsBLL::saveLogs('test', 'logs_string_updated');
+        $this->assertEquals('test', $logUpdated->name);
+        $this->assertEquals('logs_string_updated', $logUpdated->logs);
+        $this->assertEquals($log->id, $logUpdated->id);
+        
+        $logUpdated->delete();
+    }
+    
+    /**
+     * After tests delete test user.
+     * @return void
+     */
+    protected function tearDown(): void {
+        $this->deleteUserTest();
     }
 }

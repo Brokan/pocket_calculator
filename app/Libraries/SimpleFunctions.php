@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Libraries;
 
 /**
@@ -7,8 +8,8 @@ namespace App\Libraries;
  * @author Eduard Brokan <Eduard.Brokan@gmail.com>
  * @version 0.1.0
  */
-class SimpleFunctions
-{
+class SimpleFunctions {
+
     /**
      * Constant chars to convert from
      * @var array 
@@ -21,7 +22,7 @@ class SimpleFunctions
         , 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ф', 'ы', 'в', 'а'
         , 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'я', 'ч', 'с', 'м', 'и', 'т', 'б', 'ю'
         , '.', ',', ':', ';', ' '
-        ,'.', ',', ':', ';', ' ', '-', '_'
+        , '.', ',', ':', ';', ' ', '-', '_'
     );
 
     /**
@@ -46,50 +47,50 @@ class SimpleFunctions
     protected static $notallowed = array(
         ' ', '/', '\\', '?', '&', '@', '!', '$', '#', '%', '^', '*', '(', ')', '=', '[', ']', '"', "'", '<', '>', ',', '.', '`', '~'
     );
-    
+
     /**
      * Create search word of node.
      * @param string $title
      * @return string
      */
-    public static function createSearchWord($title) {
-        $title = str_replace(self::$convertfrom, self::$convertto, $title);      
+    public static function createSearchWord(string $title): string {
+        $title = str_replace(self::$convertfrom, self::$convertto, $title);
         $title = str_replace(self::$notallowed, " ", $title);
         //Leave only a-z, A-Z, 0-9 and space
         $title = preg_replace("/[^a-zA-Z0-9 \-]+/", "", $title);
         $title = str_replace(array("-"), " ", $title);
         return trim(strtolower($title));
     }
-    
+
     /**
      * Create URL valid word.
      * @param string $title
      * @return string
      */
-    public static function createURLValid($title) {
+    public static function createURLValid(string $title): string {
         $title = self::createSearchWord($title);
         $title = str_replace(" ", "_", $title);
         return trim(strtolower($title));
     }
-    
+
     /**
      * Get Serialized fields of post.
      * @param array $postData
      * @param string $field
      * @return string Serialized field.
      */
-    public static function getSerializedFields($postData, $field){
+    public static function getSerializedFields(array $postData, string $field): string {
         $array = self::getFieldsValues($postData, $field);
         return serialize($array);
     }
-    
+
     /**
      * Get post field trimmed and not empty values.
      * @param array $postData
      * @param string $field
      * @return array field.
      */
-    public static function getFieldsValues($postData, $field){
+    public static function getFieldsValues(array $postData, string $field): array {
         $array = [];
         if (!empty($postData[$field])) {
             foreach ($postData[$field] as $value) {
@@ -102,13 +103,13 @@ class SimpleFunctions
         }
         return $array;
     }
-    
+
     /**
      * simplify string for search.
      * @param string $string
      * @return string
      */
-    public static function createSearchString($string) {
+    public static function createSearchString(string $string): string {
         //Leave only a-z A-Z and 0-9
         $string = preg_replace("/[^a-zA-Z0-9 \-]+/", "", $string);
         $string = str_replace(["-"], " ", $string);
@@ -120,117 +121,119 @@ class SimpleFunctions
      * @param string $name
      * @return string
      */
-    public static function modifyNameFirstUpper($name) {
+    public static function modifyNameFirstUpper(string $name): string {
         $nameParts = explode(" ", $name);
         foreach ($nameParts as &$part) {
             $part = ucfirst(strtolower($part));
         }
         return join(" ", $nameParts);
     }
-    
+
     /**
      * 
      * @param float $price
      * @return float
      */
-    public static function priceFormat($price){
+    public static function priceFormat(float $price): float {
         return number_format($price, 2, '.', '');
     }
-    
+
     /**
      * Left in string only numbers.
      * @param string $number
      * @return string Only 0-9 string
      */
-    public static function toNumber($number){
+    public static function toNumber(string $number): string {
         //Leave only 0-9
         $number = preg_replace("/[^0-9]+/", "", $number);
         return $number;
     }
-    
+
     /**
-     * 
-     * @param int $time
-     * @return type
+     * Get time in int.
+     * @param int|string $time
+     * @return int
      */
-    private static function timeCheck($time){
-        if (!is_int($time)){
+    private static function timeCheck($time): int {
+        if (!is_int($time)) {
             $time = strtotime($time);
         }
         return $time;
     }
-    
+
     /**
      * Return in date Format "d.m.Y H:i"
-     * @param type $time
+     * @param int|string $time
      * @return string
      */
-    public static function dateFormat($time){
+    public static function dateFormat($time): string {
         $time = self::timeCheck($time);
         if ($time <= 0) {
             return "";
         }
         return date("d.m.Y", $time);
     }
-    
+
     /**
      * Return in date Format "d.m.Y H:i"
-     * @param type $time
+     * @param int|string $time
      * @return string
      */
-    public static function dateTimeFormat($time){
+    public static function dateTimeFormat($time): string {
         $time = self::timeCheck($time);
         if ($time <= 0) {
             return "";
         }
         return date("d.m.Y H:i", $time);
     }
-    
+
     /**
      * Get duration string (days, hours, minutes, seconds)
      * @param int $duration Seconds
+     * @return string
      */
-    public static function getDuration($duration){
+    public static function getDuration(int $duration): string {
         $return = [];
-        $days = (int) ($duration / (24*60*60));
-        if ($days > 0){
-            $return[] = $days." days";
-            $duration -= $days * (24*60*60);
+        $days = (int) ($duration / (24 * 60 * 60));
+        if ($days > 0) {
+            $return[] = $days . " days";
+            $duration -= $days * (24 * 60 * 60);
         }
-        $hours = (int) ($duration / (60*60));
-        if ($hours > 0){
-            $return[] = $hours." hours";
-            $duration -= $hours * (60*60);
+        $hours = (int) ($duration / (60 * 60));
+        if ($hours > 0) {
+            $return[] = $hours . " hours";
+            $duration -= $hours * (60 * 60);
         }
         $min = (int) ($duration / (60));
-        if ($min > 0){
-            $return[] = $min." min";
+        if ($min > 0) {
+            $return[] = $min . " min";
             $duration -= $min * (60);
         }
-        if ($duration > 0){
-            $return[] = $duration." sec";
+        if ($duration > 0) {
+            $return[] = $duration . " sec";
         }
         return join(" ", $return);
     }
-    
+
     /**
      * Meters to distance km and m
      * @param int $meters
      * @return string
      */
-    public static function toDistance(int $meters){
-        if (empty($meters)){
+    public static function toDistance(int $meters): string {
+        if (empty($meters)) {
             return "";
         }
         $km = (int) ($meters / 1000);
-        $meters = (int) ($meters - $km*1000);
+        $meters = (int) ($meters - $km * 1000);
         $return = [];
         if (!empty($km)) {
-            $return[] = $km." km";
+            $return[] = $km . " km";
         }
         if (!empty($meters)) {
-            $return[] = $meters." m";
+            $return[] = $meters . " m";
         }
         return join(" ", $return);
     }
+
 }
